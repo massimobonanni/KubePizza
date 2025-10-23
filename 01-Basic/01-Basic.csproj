@@ -6,6 +6,7 @@
     <RootNamespace>_01_Basic</RootNamespace>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
+    <AssemblyName>kubepizza</AssemblyName>
   </PropertyGroup>
 
   <ItemGroup>

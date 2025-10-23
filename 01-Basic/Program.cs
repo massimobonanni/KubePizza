@@ -89,11 +89,11 @@ root.SetAction((ParseResult parseResult) =>
     /// Display the processed order information to the console.
     /// In a real application, this data would be passed to order processing services.
     /// </summary>
-    Console.WriteLine($"Order received:");
-    Console.WriteLine($"- Pizza: {pizza}");
-    Console.WriteLine($"- Size: {size}");
-    Console.WriteLine($"- Toppings: {(toppings != null && toppings.Length > 0 ? string.Join(", ", toppings) : "(none)")}");
-    Console.WriteLine($"- Delivery: {delivery}");
+    ConsoleUtility.WriteLine($"Order received:",ConsoleColor.Green);
+    ConsoleUtility.WriteLine($"\t- Pizza: {pizza}");
+    ConsoleUtility.WriteLine($"\t- Size: {size}");
+    ConsoleUtility.WriteLine($"\t- Toppings: {(toppings != null && toppings.Length > 0 ? string.Join(", ", toppings) : "(none)")}");
+    ConsoleUtility.WriteLine($"\t- Delivery: {delivery}");
 });
 
 /// <summary>
