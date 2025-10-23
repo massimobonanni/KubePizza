@@ -2,7 +2,9 @@
   <Folder Name="/01-Basic/">
     <Project Path="01-Basic/01-Basic.csproj" />
   </Folder>
-  <Folder Name="/02-SubCommands/" />
+  <Folder Name="/02-SubCommands/">
+    <Project Path="02-SubCommands/02-SubCommands.csproj" Id="7f811382-771a-4209-a26d-65ec15037096" />
+  </Folder>
   <Folder Name="/03-Validators/" />
   <Folder Name="/04-TabCompletion/" />
   <Folder Name="/05-CustomHelp/" />
