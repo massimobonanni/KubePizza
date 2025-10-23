@@ -1,5 +1,7 @@
 <Solution>
-  <Folder Name="/01-Basic/" />
+  <Folder Name="/01-Basic/">
+    <Project Path="01-Basic/01-Basic.csproj" />
+  </Folder>
   <Folder Name="/02-SubCommands/" />
   <Folder Name="/03-Validators/" />
   <Folder Name="/04-TabCompletion/" />

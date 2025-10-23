@@ -95,13 +95,17 @@ public class LinuxProtectedDataProvider : IProtectedDataProvider
             keyMaterial.Append(optionalEntropy);
         }
 
-        // Use PBKDF2 to derive a key
-        using var pbkdf2 = new Rfc2898DeriveBytes(
-            Encoding.UTF8.GetBytes(keyMaterial.ToString()),
-            Encoding.UTF8.GetBytes("PromptusMaximus.Salt"), // Static salt
-            100000, // Iterations
-            HashAlgorithmName.SHA256);
+        // Use PBKDF2 to derive a key using the static method to avoid SYSLIB0060
+        var passwordBytes = Encoding.UTF8.GetBytes(keyMaterial.ToString());
+        var saltBytes = Encoding.UTF8.GetBytes("KubePizza.Salt"); // Static salt
 
-        return Task.FromResult(pbkdf2.GetBytes(KeySize));
+        var key = Rfc2898DeriveBytes.Pbkdf2(
+            passwordBytes,
+            saltBytes,
+            100000, // Iterations
+            HashAlgorithmName.SHA256,
+            KeySize);
+
+        return Task.FromResult(key);
     }
 }
