@@ -5,4 +5,5 @@
   <Folder Name="/04-TabCompletion/" />
   <Folder Name="/05-CustomHelp/" />
   <Folder Name="/06-Solution/" />
+  <Project Path="KubePizza.Core/KubePizza.Core.csproj" />
 </Solution>
