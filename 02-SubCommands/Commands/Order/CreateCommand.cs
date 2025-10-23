@@ -21,7 +21,7 @@ namespace _02_SubCommands.Commands.Order
                 Description = "Type of pizza(e.g.margherita, diavola)"
             };
             pizzaOption.Required = true;
-
+            
             sizeOption = new Option<string>("--size")
             {
                 DefaultValueFactory = (a) => "medium",

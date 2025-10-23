@@ -1,0 +1,12 @@
+{
+  "profiles": {
+    "WSL": {
+      "commandName": "WSL2",
+      "distributionName": ""
+    },
+    "03-Validators - Demo 01": {
+      "commandName": "Project",
+      "commandLineArgs": "order create --pizza pippo --size small --toppings basilic --toppings ham --toppings mozzarella "
+    }
+  }
+}

@@ -2,7 +2,7 @@
 using KubePizza.Core.Utilities;
 using System.CommandLine;
 
-ConsoleUtility.WriteApplicationBanner();
+ConsoleUtility.WriteApplicationBanner("KubePizza - 02");
 
 var rootCommand = new _02_SubCommands.Commands.RootCommand();
 

@@ -7,7 +7,7 @@
 using KubePizza.Core.Utilities;
 using System.CommandLine;
 
-ConsoleUtility.WriteApplicationBanner();
+ConsoleUtility.WriteApplicationBanner("KubePizza - 01");
 
 /// <summary>
 /// Define the root command for the kubepizza application.

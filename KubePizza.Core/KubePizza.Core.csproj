@@ -9,6 +9,7 @@
   <ItemGroup>
     <PackageReference Include="Figgle" Version="0.6.5" />
     <PackageReference Include="Figgle.Fonts" Version="0.6.5" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="10.0.0-rc.2.25502.107" />
     <PackageReference Include="System.Security.Cryptography.ProtectedData" Version="10.0.0-rc.2.25502.107" />
   </ItemGroup>
 
