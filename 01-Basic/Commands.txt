@@ -1,0 +1,5 @@
+﻿kubepizza --pizza "pepperoni" --size "large" --toppings mushrooms --toppings olives --delivery true
+
+kubepizza --pizza "margherita" --size "small" --toppings mushrooms --toppings olives
+
+kubepizza -s extralarge --delivery 1

@@ -5,7 +5,7 @@ namespace KubePizza.Core.Utilities;
 /// <summary>
 /// Provides utility methods for enhanced console output operations with color support and formatting.
 /// </summary>
-internal static class ConsoleUtility
+public static class ConsoleUtility
 {
     /// <summary>
     /// Writes a message to the console followed by a line terminator, with optional foreground color.
@@ -59,10 +59,11 @@ internal static class ConsoleUtility
     /// Writes the application banner "Promptus Maximus" to the console in ASCII art format using Figgle fonts.
     /// The banner is displayed in green color with blank lines before and after for visual separation.
     /// </summary>
-    public static void WriteApplicationBanner()
+    public static void WriteApplicationBanner(string? applicationName = null)
     {
         WriteLine();
-        WriteLine(Figgle.Fonts.FiggleFonts.Standard.Render("Promptus Maximus"), ConsoleColor.Green);
+        var banner = Figgle.Fonts.FiggleFonts.Standard.Render(applicationName ?? "KubePizza");
+        WriteLine(banner, ConsoleColor.Green);
         WriteLine();
     }
 }
