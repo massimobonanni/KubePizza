@@ -5,7 +5,7 @@ namespace KubePizza.Core.Utilities;
 /// <summary>
 /// Provides a console loading indicator that displays rotating characters while an operation is in progress.
 /// </summary>
-internal class LoadingIndicator : IDisposable
+public class LoadingIndicator : IDisposable
 {
     /// <summary>
     /// The character array used for the spinner style animation.

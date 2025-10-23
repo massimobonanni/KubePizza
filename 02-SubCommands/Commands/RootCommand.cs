@@ -1,4 +1,6 @@
-﻿using System;
+﻿using _02_SubCommands.Commands.Order;
+using _02_SubCommands.Commands.Topping;
+using System;
 using System.Collections.Generic;
 using System.CommandLine;
 using System.Text;
@@ -9,14 +11,8 @@ namespace _02_SubCommands.Commands
     {
         public RootCommand() : base("kubepizza — manage your pizza orders like a pro 🍕")
         {
-            var outputOption = new Option<string>("--output", ["-o"]);
-            outputOption.DefaultValueFactory = (a) => "table";
-            outputOption.AcceptOnlyFromAmong("table", "json", "yaml");
-
-            this.Options.Add(outputOption);
-
             this.Subcommands.Add(new OrderCommand());
-            this.Subcommands.Add(new CreateCommand());
+            this.Subcommands.Add(new ToppingCommand());
         }
     }
 }

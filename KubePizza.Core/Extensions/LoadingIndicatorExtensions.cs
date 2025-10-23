@@ -5,7 +5,7 @@ namespace System.Threading;
 /// <summary>
 /// Extension methods for easy integration of loading indicators with async operations.
 /// </summary>
-internal static class LoadingIndicatorExtensions
+public static class LoadingIndicatorExtensions
 {
     /// <summary>
     /// Executes an async operation with a loading indicator.
