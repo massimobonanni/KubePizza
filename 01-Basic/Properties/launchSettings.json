@@ -4,11 +4,11 @@
       "commandName": "WSL2",
       "distributionName": ""
     },
-    "01-Basic - Demo 02": {
+    "-s extralarge --delivery 1": {
       "commandName": "Project",
       "commandLineArgs": "-s extralarge --delivery 1"
     },
-    "01-Basic - Demo 01": {
+    "--pizza \"pepperoni\" --size \"large\" --toppings mushrooms --toppings olives --delivery true": {
       "commandName": "Project",
       "commandLineArgs": "--pizza \"pepperoni\" --size \"large\" --toppings mushrooms --toppings olives --delivery true"
     }

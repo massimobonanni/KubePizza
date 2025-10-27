@@ -4,9 +4,9 @@
       "commandName": "WSL2",
       "distributionName": ""
     },
-    "03-Validators - Demo 01": {
+    "order create --pizza pippo --size small --toppings basilic --toppings ham --toppings mozzarella": {
       "commandName": "Project",
-      "commandLineArgs": "order create --pizza pippo --size small --toppings basilic --toppings ham --toppings mozzarella "
+      "commandLineArgs": "order create --pizza pippo --size small --toppings basilic --toppings ham --toppings mozzarella"
     }
   }
 }

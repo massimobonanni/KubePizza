@@ -8,7 +8,9 @@
   <Folder Name="/03-Validators/">
     <Project Path="03-Validators/03-Validators.csproj" Id="deadf011-8c5c-404c-b081-e869b559e2c1" />
   </Folder>
-  <Folder Name="/04-TabCompletion/" />
+  <Folder Name="/04-TabCompletion/">
+    <Project Path="04-TabCompletion/04-TabCompletion.csproj" Id="06fae05f-7add-4473-b8de-884cdf30c99b" />
+  </Folder>
   <Folder Name="/05-CustomHelp/" />
   <Folder Name="/06-Testing/" />
   <Folder Name="/07-Solution/" />

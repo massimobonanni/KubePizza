@@ -1,0 +1,16 @@
+{
+  "profiles": {
+    "WSL": {
+      "commandName": "WSL2",
+      "distributionName": ""
+    },
+    "order create --pizza": {
+      "commandName": "Project",
+      "commandLineArgs": "order create --pizza"
+    },
+    "order create --topping": {
+      "commandName": "Project",
+      "commandLineArgs": "order create --toppings"
+    }
+  }
+}
