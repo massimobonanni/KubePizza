@@ -1,0 +1,15 @@
+{
+  "profiles": {
+    "05-CustomHelp": {
+      "commandName": "Project"
+    },
+    "kubepizza order create": {
+      "commandName": "Project",
+      "commandLineArgs": "kubepizza order create"
+    },
+    "kubepizza order list": {
+      "commandName": "Project",
+      "commandLineArgs": "kubepizza order list --help"
+    }
+  }
+}

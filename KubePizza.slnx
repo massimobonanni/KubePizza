@@ -11,7 +11,9 @@
   <Folder Name="/04-TabCompletion/">
     <Project Path="04-TabCompletion/04-TabCompletion.csproj" Id="06fae05f-7add-4473-b8de-884cdf30c99b" />
   </Folder>
-  <Folder Name="/05-CustomHelp/" />
+  <Folder Name="/05-CustomHelp/">
+    <Project Path="05-CustomHelp/05-CustomHelp.csproj" Id="d2c9db24-4f4c-49cc-b0e9-27e1f71ab8b7" />
+  </Folder>
   <Folder Name="/06-Testing/" />
   <Folder Name="/07-Solution/" />
   <Project Path="KubePizza.Core/KubePizza.Core.csproj" />
