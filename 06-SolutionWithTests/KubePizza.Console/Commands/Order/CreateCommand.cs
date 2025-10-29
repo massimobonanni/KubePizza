@@ -1,10 +1,15 @@
-﻿using KubePizza.Core.Services;
+﻿using KubePizza.Console.Commands;
+using KubePizza.Core.Services;
 using KubePizza.Core.Utilities;
 using Microsoft.Extensions.DependencyInjection;
+using System;
+using System.Collections.Generic;
 using System.CommandLine;
 using System.CommandLine.Completions;
+using System.Drawing;
+using System.Text;
 
-namespace _05_CustomHelp.Commands.Order;
+namespace KubePizza.Console.Commands.Order;
 
 internal class CreateCommand : CommandBase
 {
@@ -38,12 +43,13 @@ internal class CreateCommand : CommandBase
             var pizzaCatalog = this.serviceProvider.GetRequiredService<IPizzaCatalog>();
             return pizzaCatalog.Pizzas
                 .Where(p => p.Contains(context.WordToComplete, StringComparison.OrdinalIgnoreCase))
-                .Select(p=>new CompletionItem(p));
+                .Select(p => new CompletionItem(p));
         });
 
 
         sizeOption = new Option<string>("--size")
         {
+            Description = "Size of the pizza (small, medium, or large).",
             DefaultValueFactory = (a) => "medium",
         };
         sizeOption.AcceptOnlyFromAmong("small", "medium", "large");
@@ -125,10 +131,10 @@ internal class CreateCommand : CommandBase
                     completionMessage: $"Order placed successfully!",
                     showTimeTaken: true); ;
 
-        Console.WriteLine($"\tPizza: {pizza}");
-        Console.WriteLine($"\tSize: {size}");
-        Console.WriteLine($"\tToppings: {(toppings.Length > 0 ? string.Join(", ", toppings) : "(none)")}");
-        Console.WriteLine($"\tDelivery: {delivery}");
-        Console.WriteLine($"\tOutput format: {output}");
+        ConsoleUtility.WriteLine($"\tPizza: {pizza}");
+        ConsoleUtility.WriteLine($"\tSize: {size}");
+        ConsoleUtility.WriteLine($"\tToppings: {(toppings.Length > 0 ? string.Join(", ", toppings) : "(none)")}");
+        ConsoleUtility.WriteLine($"\tDelivery: {delivery}");
+        ConsoleUtility.WriteLine($"\tOutput format: {output}");
     }
 }

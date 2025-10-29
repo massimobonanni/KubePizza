@@ -87,6 +87,18 @@ internal class CreateCommand : CommandBase
             return remaining.Select(t => new CompletionItem(t));
         });
 
+        toppingsOption.CustomParser = result =>
+        {
+            // Split by comma
+            var allValues = new List<string>();
+            foreach (var token in result.Tokens)
+            {
+                var splits = token.Value.Split(',', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries);
+                allValues.AddRange(splits);
+            }
+            return allValues.ToArray();
+        };
+
         deliveryOption = new Option<bool>("--delivery")
         {
             Description = "Specify if the order is for delivery (default: true).",
