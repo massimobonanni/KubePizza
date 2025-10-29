@@ -80,32 +80,6 @@ internal class CreateCommand : CommandBase
         {
             Description = "Specify if the order is for delivery (default: true).",
             DefaultValueFactory = _ => true,
-            Arity= ArgumentArity.ZeroOrOne,
-            AllowMultipleArgumentsPerToken = true,
-        };
-
-        deliveryOption.CustomParser= result=>
-        {
-            var token = result.Tokens.FirstOrDefault()?.Value;
-            if (string.IsNullOrEmpty(token))
-            {
-                return true; // default
-            }
-            if (bool.TryParse(token, out var boolValue))
-            {
-                return boolValue;
-            }
-            // Accept also "yes"/"no", "1"/"0"
-            if (token.Equals("yes", StringComparison.OrdinalIgnoreCase) || token == "1")
-            {
-                return true;
-            }
-            else if (token.Equals("no", StringComparison.OrdinalIgnoreCase) || token == "0")
-            {
-                return false;
-            }
-            result.AddError($"Invalid value for --delivery: '{token}'. Allowed values are: true, false, yes, no, 1, 0.");
-            return false;
         };
 
         // Validate options values in combination (validator for the command)
