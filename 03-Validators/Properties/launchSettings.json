@@ -4,9 +4,21 @@
       "commandName": "WSL2",
       "distributionName": ""
     },
-    "order create --pizza pippo --size small --toppings basilic --toppings ham --toppings mozzarella": {
+    "order create --pizza pippo --size small --toppings basil --toppings ham --toppings mozzarella": {
       "commandName": "Project",
-      "commandLineArgs": "order create --pizza pippo --size small --toppings basilic --toppings ham --toppings mozzarella"
+      "commandLineArgs": "order create --pizza pippo --size small --toppings basil --toppings ham --toppings mozzarella"
+    },
+    "order create --pizza margherita --size small --delivery yes": {
+      "commandName": "Project",
+      "commandLineArgs": "order create --pizza margherita --size small --delivery yes"
+    },
+    "order create --pizza margherita --size small --toppings basil,bufala,mozzarella": {
+      "commandName": "Project",
+      "commandLineArgs": "order create --pizza margherita --size small --toppings basil,bufala,mozzarella"
+    },
+    "order create --pizza margherita --size small --toppings basil --toppings mozzarella": {
+      "commandName": "Project",
+      "commandLineArgs": "order create --pizza margherita --size small --toppings basil --toppings mozzarella"
     }
   }
 }

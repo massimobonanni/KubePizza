@@ -15,6 +15,5 @@
     <Project Path="05-CustomHelp/05-CustomHelp.csproj" Id="d2c9db24-4f4c-49cc-b0e9-27e1f71ab8b7" />
   </Folder>
   <Folder Name="/06-Testing/" />
-  <Folder Name="/07-Solution/" />
   <Project Path="KubePizza.Core/KubePizza.Core.csproj" />
 </Solution>
