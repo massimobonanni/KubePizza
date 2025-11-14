@@ -6,7 +6,7 @@
     <RootNamespace>_05_CustomHelp</RootNamespace>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
-    <AssemblyName>kubepizza</AssemblyName>
+    <AssemblyName>kb05</AssemblyName>
   </PropertyGroup>
 
   <ItemGroup>

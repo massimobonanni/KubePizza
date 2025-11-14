@@ -6,7 +6,7 @@
     <RootNamespace>_02_SubCommands</RootNamespace>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
-    <AssemblyName>kubepizza</AssemblyName>
+    <AssemblyName>kb02</AssemblyName>
   </PropertyGroup>
 
   <ItemGroup>

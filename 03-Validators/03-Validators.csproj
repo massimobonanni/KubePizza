@@ -6,7 +6,7 @@
     <RootNamespace>_03_Validators</RootNamespace>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
-    <AssemblyName>kubepizza</AssemblyName>
+    <AssemblyName>kb03</AssemblyName>
   </PropertyGroup>
 
   <ItemGroup>
