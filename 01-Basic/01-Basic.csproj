@@ -6,7 +6,7 @@
     <RootNamespace>_01_Basic</RootNamespace>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
-    <AssemblyName>kb01</AssemblyName>
+    <AssemblyName>kp01</AssemblyName>
   </PropertyGroup>
 
   <ItemGroup>

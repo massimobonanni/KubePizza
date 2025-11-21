@@ -6,7 +6,7 @@
     <RootNamespace>_04_TabCompletion</RootNamespace>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
-    <AssemblyName>kb04</AssemblyName>
+    <AssemblyName>kp04</AssemblyName>
   </PropertyGroup>
 
   <ItemGroup>

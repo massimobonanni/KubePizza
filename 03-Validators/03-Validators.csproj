@@ -6,7 +6,7 @@
     <RootNamespace>_03_Validators</RootNamespace>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
-    <AssemblyName>kb03</AssemblyName>
+    <AssemblyName>kp03</AssemblyName>
   </PropertyGroup>
 
   <ItemGroup>

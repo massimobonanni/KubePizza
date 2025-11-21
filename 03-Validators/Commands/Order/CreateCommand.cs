@@ -88,10 +88,10 @@ internal class CreateCommand : CommandBase
             var size = result.GetValue(sizeOption) ?? "medium";
             var toppings = result.GetValue(toppingsOption) ?? Array.Empty<string>();
 
-            // If size=small and toppings > 3 → error “business”
-            if (size.Equals("small", StringComparison.OrdinalIgnoreCase) && toppings.Length > 3)
+            // If size=small and toppings > 2 → error “business”
+            if (size.Equals("small", StringComparison.OrdinalIgnoreCase) && toppings.Length > 2)
             {
-                result.AddError("Too many toppings for a small size (max 3).");
+                result.AddError("Too many toppings for a small size (max 2).");
             }
         });
 

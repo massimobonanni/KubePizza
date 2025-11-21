@@ -86,7 +86,7 @@ internal class CreateCommand : CommandBase
 
             return remaining.Select(t => new CompletionItem(t));
         });
-
+        
         toppingsOption.CustomParser = result =>
         {
             // Split by comma
@@ -109,7 +109,7 @@ internal class CreateCommand : CommandBase
         this.Options.Add(sizeOption);
         this.Options.Add(toppingsOption);
         this.Options.Add(deliveryOption);
-
+        
         this.SetAction(CommandHandler);
     }
 
