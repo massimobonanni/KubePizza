@@ -3,13 +3,21 @@
     "05-CustomHelp": {
       "commandName": "Project"
     },
-    "kubepizza order create": {
+    "order create": {
       "commandName": "Project",
-      "commandLineArgs": "kubepizza order create"
+      "commandLineArgs": "order create"
     },
-    "kubepizza order list": {
+    "order list --help": {
       "commandName": "Project",
-      "commandLineArgs": "kubepizza order list --help"
+      "commandLineArgs": "order list --help"
+    },
+    "--help": {
+      "commandName": "Project",
+      "commandLineArgs": "--help"
+    },
+    "--version": {
+      "commandName": "Project",
+      "commandLineArgs": "--version"
     }
   }
 }

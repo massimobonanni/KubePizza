@@ -1,6 +1,7 @@
 ﻿using _05_CustomHelp.Commands.Order;
 using _05_CustomHelp.Commands.Topping;
 using _05_CustomHelp.Help;
+using System.CommandLine;
 using System.CommandLine.Help;
 
 namespace _05_CustomHelp.Commands;
@@ -16,10 +17,14 @@ internal class RootCommand : System.CommandLine.RootCommand
         this.Subcommands.Add(new ToppingCommand(serviceProvider));
 
         for (int i = 0; i < this.Options.Count; i++)
-        {   if (this.Options[i] is HelpOption defaultHelpOption)
+        {   
+            if (this.Options[i] is HelpOption defaultHelpOption)
             {
                 defaultHelpOption.Action = new CustomHelpAction((HelpAction)defaultHelpOption.Action!);
-                break;
+            }
+            if (this.Options[i] is VersionOption defaultVersionOption)
+            {
+                defaultVersionOption.Action = new CustomVersionAction();
             }
         }
     }

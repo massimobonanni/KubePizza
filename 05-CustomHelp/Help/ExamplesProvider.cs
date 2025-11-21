@@ -1,4 +1,5 @@
 ﻿using System.CommandLine;
+using System.Reflection;
 
 namespace _05_CustomHelp.Help;
 
@@ -42,6 +43,7 @@ internal sealed class ExamplesProvider
     public string[] GetExamplesFor(Command command)
     {
         var path = GetPath(command);
+        
         return _examplesByPath.TryGetValue(path, out var ex) ? ex : Array.Empty<string>();
     }
 
@@ -66,7 +68,8 @@ internal sealed class ExamplesProvider
         var current = command;
         while (current is not null)
         {
-            parts.Add(current.Name);
+            if (current.Parents.Any())
+                parts.Add(current.Name);
             current = current.Parents.FirstOrDefault() as Command;
         }
         parts.Reverse();

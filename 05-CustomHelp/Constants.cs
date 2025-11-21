@@ -16,22 +16,22 @@ namespace _05_CustomHelp
                 "kubepizza order create --pizza margherita --size large --toppings basil,mozzarella" ,               "kubepizza order list --status open --output json"
             },
             // order
-            ["kubepizza order"] = new[]
+            ["order"] = new[]
             {
-                "kubepizza order create --pizza diavola --size medium",
-                "kubepizza order list --status delivered"
+                "kp05 order create --pizza diavola --size medium",
+                "kp05 order list --status delivered"
             },
             // order create
-            ["kubepizza order create"] = new[]
+            ["order create"] = new[]
             {
-                "kubepizza order create --pizza margherita --size large --toppings basil,mozzarella",
-                "kubepizza order create --pizza vegetariana --toppings mushrooms,peppers "
+                "kp05 order create --pizza margherita --size large --toppings basil,mozzarella",
+                "kp05 order create --pizza vegetariana --toppings mushrooms,peppers "
             },
             // order list
-            ["kubepizza order list"] = new[]
+            ["order list"] = new[]
             {
-                "kubepizza order list --status preparing --output yaml",
-                "kubepizza order list --status all --output table"
+                "kp05 order list --status preparing --output yaml",
+                "kp05 order list --status all --output table"
             }
         };
     }

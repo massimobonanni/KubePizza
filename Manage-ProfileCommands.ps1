@@ -45,12 +45,12 @@ $ScriptDir = Split-Path -Parent $MyInvocation.MyCommand.Path
 
 # Array of aliases (Name -> Relative Path from script directory)
 $AliasesRelativePaths = @{
-    "kb01" = "01-Basic\bin\Debug\net10.0\kb01.exe"
-    "kb02" = "02-SubCommands\bin\Debug\net10.0\kb02.exe"
-    "kb03" = "03-Validators\bin\Debug\net10.0\kb03.exe"
-    "kb04" = "04-TabCompletion\bin\Debug\net10.0\kb04.exe"
-    "kb05" = "05-CustomHelp\bin\Debug\net10.0\kb05.exe"
-    "kb" = "06-SolutionWithTests\KubePizza.Console\bin\Debug\net10.0\kb.exe"
+    "kp01" = "01-Basic\bin\Debug\net10.0\kp01.exe"
+    "kp02" = "02-SubCommands\bin\Debug\net10.0\kp02.exe"
+    "kp03" = "03-Validators\bin\Debug\net10.0\kp03.exe"
+    "kp04" = "04-TabCompletion\bin\Debug\net10.0\kp04.exe"
+    "kp05" = "05-CustomHelp\bin\Debug\net10.0\kp05.exe"
+    "kp" = "06-SolutionWithTests\KubePizza.Console\bin\Debug\net10.0\kp.exe"
 }
 
 # Build full paths for aliases
