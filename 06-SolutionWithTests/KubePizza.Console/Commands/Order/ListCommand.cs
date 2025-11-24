@@ -1,4 +1,5 @@
 ﻿using KubePizza.Console.Commands;
+using KubePizza.Core.Interfaces;
 using KubePizza.Core.Utilities;
 using Microsoft.Extensions.DependencyInjection;
 using System;
@@ -12,7 +13,8 @@ internal class ListCommand : CommandBase
 {
     private readonly Option<string> statusOption;
 
-    public ListCommand(IServiceProvider serviceProvider) : base("list", "List all pizza orders", serviceProvider)
+    public ListCommand(IServiceProvider serviceProvider, IConsole console) : 
+        base("list", "List all pizza orders", serviceProvider, console)
     {
         statusOption = new Option<string>("--status")
         {
@@ -31,10 +33,10 @@ internal class ListCommand : CommandBase
         var status = parseResult.GetValue(statusOption);
         var output = parseResult.GetValue<string>(outputOption);
 
-        ConsoleUtility.WriteLine($"Listing {status} orders (output: {output})", ConsoleColor.Green);
-        ConsoleUtility.WriteLine();
-        ConsoleUtility.WriteLine("ID   Pizza         Size    Status");
-        ConsoleUtility.WriteLine("1    Margherita    Large   Delivered");
-        ConsoleUtility.WriteLine("2    Diavola       Medium  Preparing");
+        console.WriteLine($"Listing {status} orders (output: {output})", ConsoleColor.Green);
+        console.WriteLine();
+        console.WriteLine("ID   Pizza         Size    Status");
+        console.WriteLine("1    Margherita    Large   Delivered");
+        console.WriteLine("2    Diavola       Medium  Preparing");
     }
 }

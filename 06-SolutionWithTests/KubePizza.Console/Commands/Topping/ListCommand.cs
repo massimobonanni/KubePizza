@@ -1,4 +1,5 @@
 ﻿using KubePizza.Console.Commands;
+using KubePizza.Core.Interfaces;
 using KubePizza.Core.Utilities;
 using Microsoft.Extensions.DependencyInjection;
 using System;
@@ -11,17 +12,18 @@ namespace KubePizza.Console.Commands.Topping;
 internal class ListCommand : CommandBase
 {
 
-    public ListCommand(IServiceProvider serviceProvider) : base("list", "List all available toppings", serviceProvider)
+    public ListCommand(IServiceProvider serviceProvider, IConsole console) : 
+        base("list", "List all available toppings", serviceProvider, console)
     {
         this.SetAction(CommandHandler);
     }
 
     private async Task CommandHandler(ParseResult parseResult, CancellationToken cancellationToken)
     {
-        ConsoleUtility.WriteLine("Available toppings:", ConsoleColor.Green);
-        ConsoleUtility.WriteLine("\t- basil");
-        ConsoleUtility.WriteLine("\t- mozzarella");
-        ConsoleUtility.WriteLine("\t- olives");
-        ConsoleUtility.WriteLine("\t- mushrooms");
+        console.WriteLine("Available toppings:", ConsoleColor.Green);
+        console.WriteLine("\t- basil");
+        console.WriteLine("\t- mozzarella");
+        console.WriteLine("\t- olives");
+        console.WriteLine("\t- mushrooms");
     }
 }

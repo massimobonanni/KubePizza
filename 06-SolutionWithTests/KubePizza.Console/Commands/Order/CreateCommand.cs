@@ -1,4 +1,5 @@
 ﻿using KubePizza.Console.Commands;
+using KubePizza.Core.Interfaces;
 using KubePizza.Core.Services;
 using KubePizza.Core.Utilities;
 using Microsoft.Extensions.DependencyInjection;
@@ -18,7 +19,8 @@ internal class CreateCommand : CommandBase
     private readonly Option<string[]> toppingsOption;
     private readonly Option<bool> deliveryOption;
 
-    public CreateCommand(IServiceProvider serviceProvider) : base("create", "Create a new pizza order", serviceProvider)
+    public CreateCommand(IServiceProvider serviceProvider, IConsole console) :
+        base("create", "Create a new pizza order", serviceProvider, console)
     {
         pizzaOption = new Option<string>("--pizza")
         {
@@ -29,7 +31,7 @@ internal class CreateCommand : CommandBase
         // Pizza must be in the catalog (validator for an option)
         pizzaOption.Validators.Add(result =>
         {
-            var pizzaCatalog = this.serviceProvider.GetRequiredService<IPizzaCatalog>();
+            var pizzaCatalog = this.serviceProvider.GetPizzaCatalog();
             var value = result.GetValueOrDefault<string>();
             if (!pizzaCatalog.Pizzas.Contains(value, StringComparer.OrdinalIgnoreCase))
             {
@@ -40,7 +42,7 @@ internal class CreateCommand : CommandBase
         // Dynamic completion for pizza types
         pizzaOption.CompletionSources.Add((context) =>
         {
-            var pizzaCatalog = this.serviceProvider.GetRequiredService<IPizzaCatalog>();
+            var pizzaCatalog = this.serviceProvider.GetPizzaCatalog();
             return pizzaCatalog.Pizzas
                 .Where(p => p.Contains(context.WordToComplete, StringComparison.OrdinalIgnoreCase))
                 .Select(p => new CompletionItem(p));
@@ -77,7 +79,7 @@ internal class CreateCommand : CommandBase
             var chosenPizza = parse.GetValue(pizzaOption);
             var alreadyTyped = parse.GetValue(toppingsOption) ?? Array.Empty<string>();
 
-            var pizzaCatalog = this.serviceProvider.GetRequiredService<IPizzaCatalog>();
+            var pizzaCatalog = this.serviceProvider.GetPizzaCatalog();
 
             IEnumerable<string> toppings = string.IsNullOrWhiteSpace(chosenPizza)
                    ? pizzaCatalog.AllToppings
@@ -122,7 +124,7 @@ internal class CreateCommand : CommandBase
         var delivery = parseResult.GetValue(deliveryOption);
         var output = parseResult.GetValue<string>(outputOption);
 
-        ConsoleUtility.WriteLine($"🍕 Creating order:", ConsoleColor.Green);
+        console.WriteLine($"Creating order:", ConsoleColor.Green);
 
         await Task.Delay(5000, cancellationToken)
             .WithLoadingIndicator(
@@ -131,10 +133,10 @@ internal class CreateCommand : CommandBase
                     completionMessage: $"Order placed successfully!",
                     showTimeTaken: true); ;
 
-        ConsoleUtility.WriteLine($"\tPizza: {pizza}");
-        ConsoleUtility.WriteLine($"\tSize: {size}");
-        ConsoleUtility.WriteLine($"\tToppings: {(toppings.Length > 0 ? string.Join(", ", toppings) : "(none)")}");
-        ConsoleUtility.WriteLine($"\tDelivery: {delivery}");
-        ConsoleUtility.WriteLine($"\tOutput format: {output}");
+        console.WriteLine($"\tPizza: {pizza}");
+        console.WriteLine($"\tSize: {size}");
+        console.WriteLine($"\tToppings: {(toppings.Length > 0 ? string.Join(", ", toppings) : "(none)")}");
+        console.WriteLine($"\tDelivery: {delivery}");
+        console.WriteLine($"\tOutput format: {output}");
     }
 }

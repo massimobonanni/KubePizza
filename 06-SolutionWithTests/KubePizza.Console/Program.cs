@@ -1,4 +1,6 @@
-﻿using KubePizza.Core.Services;
+﻿using KubePizza.Core.Implementations;
+using KubePizza.Core.Interfaces;
+using KubePizza.Core.Services;
 using KubePizza.Core.Utilities;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
@@ -12,9 +14,10 @@ ConsoleUtility.WriteApplicationBanner("KubePizza");
 /// </summary>
 var serviceCollection = new ServiceCollection();
 serviceCollection.TryAddSingleton<IPizzaCatalog, PizzaCatalog>();
+serviceCollection.TryAddSingleton<IConsole, SystemConsole>();
 var serviceProvider = serviceCollection.BuildServiceProvider();
 
-var rootCommand = new KubePizza.Console.Commands.RootCommand(serviceProvider);
+var rootCommand = new KubePizza.Console.Commands.RootCommand(serviceProvider, serviceProvider.GetConsole());
 
 ParseResult parseResult = rootCommand.Parse(args);
 return await parseResult.InvokeAsync();

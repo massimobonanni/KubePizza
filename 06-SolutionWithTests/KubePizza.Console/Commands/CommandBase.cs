@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using KubePizza.Core.Interfaces;
+using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
 using System.CommandLine;
@@ -10,12 +11,16 @@ internal abstract class CommandBase : Command
 {
     protected readonly Option<string> outputOption;
     protected readonly IServiceProvider serviceProvider;
+    protected readonly IConsole console;
 
-    public CommandBase(string name, string description, IServiceProvider serviceProvider) : base(name, description)
+    public CommandBase(string name, string description, IServiceProvider serviceProvider, IConsole console) : 
+        base(name, description)
     {
         ArgumentNullException.ThrowIfNull(serviceProvider);
+        ArgumentNullException.ThrowIfNull(console);
 
         this.serviceProvider = serviceProvider;
+        this.console = console;
 
         outputOption = new Option<string>("--output", ["-o"])
         {

@@ -1,4 +1,5 @@
 ﻿using KubePizza.Console.Commands;
+using KubePizza.Core.Interfaces;
 using KubePizza.Core.Utilities;
 using Microsoft.Extensions.DependencyInjection;
 using System;
@@ -13,7 +14,8 @@ internal class AddCommand : CommandBase
 {
     private readonly Option<string> nameOption;
 
-    public AddCommand(IServiceProvider serviceProvider) : base("add", "Add a new topping", serviceProvider)
+    public AddCommand(IServiceProvider serviceProvider, IConsole console) :
+        base("add", "Add a new topping", serviceProvider, console)
     {
         nameOption = new Option<string>("--name")
         {
@@ -30,6 +32,6 @@ internal class AddCommand : CommandBase
     {
         var name = parseResult.GetRequiredValue(nameOption);
 
-        ConsoleUtility.WriteLine($"🥫 Added topping: {name}", ConsoleColor.Green);
+        console.WriteLine($"Added topping: {name}", ConsoleColor.Green);
     }
 }
