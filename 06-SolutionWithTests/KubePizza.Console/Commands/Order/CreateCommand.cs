@@ -120,7 +120,7 @@ internal class CreateCommand : CommandBase
     {
         var pizza = parseResult.GetRequiredValue(pizzaOption);
         var size = parseResult.GetValue(sizeOption);
-        var toppings = parseResult.GetValue(toppingsOption);
+        var toppings = parseResult.GetValue(toppingsOption) ?? Array.Empty<string>();
         var delivery = parseResult.GetValue(deliveryOption);
         var output = parseResult.GetValue<string>(outputOption);
 
@@ -131,7 +131,7 @@ internal class CreateCommand : CommandBase
                     message: $"Sendig order to server...",
                     style: LoadingIndicator.Style.Spinner,
                     completionMessage: $"Order placed successfully!",
-                    showTimeTaken: true); ;
+                    showTimeTaken: true);
 
         console.WriteLine($"\tPizza: {pizza}");
         console.WriteLine($"\tSize: {size}");
