@@ -9,13 +9,8 @@ using System.CommandLine.Parsing;
 namespace KubePizza.Tests.Commands.Order;
 
 /// <summary>
-/// Integration tests for the CreateCommand class.
-/// These tests focus on how CreateCommand integrates with the System.CommandLine framework,
-/// including command parsing, validation execution, completion functionality, and service integration.
-/// 
-/// Unlike unit tests that test isolated functionality, these integration tests verify
-/// that CreateCommand works correctly within the broader context of a command-line application.
-/// They test real parsing scenarios that users would experience when using the CLI.
+/// Integration tests for <see cref="CreateCommand"/> focusing on parsing, validation,
+/// completion, service integration, and option behavior.
 /// </summary>
 public class CreateCommandIntegrationTests
 {
@@ -24,9 +19,7 @@ public class CreateCommandIntegrationTests
     private readonly Mock<IConsole> _mockConsole;
 
     /// <summary>
-    /// Test setup that runs before each test method.
-    /// Creates mock dependencies with realistic test data that simulates a real pizza catalog.
-    /// This provides a controlled environment for integration testing.
+    /// Initializes common mocks with realistic test data.
     /// </summary>
     public CreateCommandIntegrationTests()
     {
@@ -52,14 +45,7 @@ public class CreateCommandIntegrationTests
     }
 
     /// <summary>
-    /// Verifies that parsing "create --pizza margherita" correctly parses without errors.
-    /// 
-    /// Purpose: Tests the basic command parsing functionality with valid input
-    /// How it works: 
-    /// 1. Creates a root command with CreateCommand as a subcommand
-    /// 2. Parses a valid command string
-    /// 3. Verifies that the parsed result has no errors
-    /// 4. Confirms that the resulting command is the CreateCommand
+    /// Parses a valid command and verifies no errors.
     /// </summary>
     [Fact]
     public void Parse_CreateCommandWithValidPizza_ParsesCorrectly()
@@ -79,13 +65,7 @@ public class CreateCommandIntegrationTests
     }
 
     /// <summary>
-    /// Verifies that parsing with an invalid pizza type generates appropriate errors.
-    /// 
-    /// Purpose: Tests error handling for invalid user input
-    /// How it works:
-    /// 1. Creates a root command with CreateCommand
-    /// 2. Attempts to parse with an invalid pizza type
-    /// 3. Verifies that parsing generates validation errors
+    /// Parses with invalid pizza and verifies errors.
     /// </summary>
     [Fact]
     public void Parse_CreateCommandWithInvalidPizza_ReturnsError()
@@ -104,13 +84,7 @@ public class CreateCommandIntegrationTests
     }
 
     /// <summary>
-    /// Verifies that parsing without the required pizza option generates errors.
-    /// 
-    /// Purpose: Tests validation for required parameters
-    /// How it works:
-    /// 1. Creates a root command with CreateCommand
-    /// 2. Attempts to parse without the required --pizza option
-    /// 3. Verifies that parsing generates required parameter errors
+    /// Omitting required `--pizza` produces errors.
     /// </summary>
     [Fact]
     public void Parse_CreateCommandWithoutRequiredPizza_ReturnsError()
@@ -129,13 +103,7 @@ public class CreateCommandIntegrationTests
     }
 
     /// <summary>
-    /// Verifies that parsing with multiple options works correctly.
-    /// 
-    /// Purpose: Tests complex command parsing with multiple options
-    /// How it works:
-    /// 1. Creates a root command with CreateCommand
-    /// 2. Parses a command line with multiple valid options
-    /// 3. Verifies successful parsing without errors
+    /// Parses with multiple valid options and verifies success.
     /// </summary>
     [Fact]
     public void Parse_CreateCommandWithMultipleOptions_ParsesCorrectly()
@@ -154,13 +122,7 @@ public class CreateCommandIntegrationTests
     }
 
     /// <summary>
-    /// Verifies that help requests parse correctly without errors.
-    /// 
-    /// Purpose: Tests that the help system integration works properly
-    /// How it works:
-    /// 1. Creates a root command with CreateCommand
-    /// 2. Parses a help request command line
-    /// 3. Verifies that help requests don't generate parsing errors
+    /// Parses help request and verifies no errors.
     /// </summary>
     [Fact]
     public void Parse_CreateCommandHelp_ParsesWithoutErrors()
@@ -179,13 +141,7 @@ public class CreateCommandIntegrationTests
     }
 
     /// <summary>
-    /// Verifies that the CreateCommand integrates correctly with its parent OrderCommand.
-    /// 
-    /// Purpose: Tests parent-child relationship in command hierarchy
-    /// How it works:
-    /// 1. Creates an OrderCommand which should contain CreateCommand
-    /// 2. Verifies CreateCommand is present as a subcommand
-    /// 3. Verifies the parent-child relationship is established
+    /// Verifies subcommand registration and parent-child relationship.
     /// </summary>
     [Fact]
     public void CreateCommand_IntegratesWithParentOrderCommand()
@@ -203,13 +159,7 @@ public class CreateCommandIntegrationTests
     }
 
     /// <summary>
-    /// Verifies that the pizza validator integrates with the pizza catalog service.
-    /// 
-    /// Purpose: Tests service integration for validation
-    /// How it works:
-    /// 1. Creates a CreateCommand and parses with a valid pizza
-    /// 2. Verifies that the service provider was called to get the pizza catalog
-    /// 3. This ensures the validator uses the injected service
+    /// Confirms pizza validator calls into the catalog service.
     /// </summary>
     [Fact]
     public void CreateCommand_PizzaValidator_IntegratesWithPizzaCatalog()
@@ -227,12 +177,7 @@ public class CreateCommandIntegrationTests
     }
 
     /// <summary>
-    /// Verifies that size validation accepts only valid values.
-    /// 
-    /// Purpose: Tests integrated validation for size option
-    /// How it works:
-    /// 1. Tests multiple valid size values using Theory/InlineData
-    /// 2. For each value, verifies parsing succeeds without errors
+    /// Validates accepted size values parse successfully.
     /// </summary>
     [Theory]
     [InlineData("small")]
@@ -254,12 +199,7 @@ public class CreateCommandIntegrationTests
     }
 
     /// <summary>
-    /// Verifies that size validation rejects invalid values.
-    /// 
-    /// Purpose: Tests validation error handling for size option
-    /// How it works:
-    /// 1. Attempts to parse with an invalid size value
-    /// 2. Verifies that parsing generates validation errors
+    /// Invalid size values produce errors.
     /// </summary>
     [Fact]
     public void Parse_CreateCommandWithInvalidSize_ReturnsError()
@@ -278,12 +218,7 @@ public class CreateCommandIntegrationTests
     }
 
     /// <summary>
-    /// Verifies that pizza validation is case-insensitive.
-    /// 
-    /// Purpose: Tests that users can use different case variations
-    /// How it works:
-    /// 1. Tests multiple case variations using Theory/InlineData
-    /// 2. Verifies all variations parse successfully
+    /// Ensures pizza validation is case-insensitive.
     /// </summary>
     [Theory]
     [InlineData("margherita")]
@@ -306,12 +241,7 @@ public class CreateCommandIntegrationTests
     }
 
     /// <summary>
-    /// Verifies that toppings can be specified using comma-separated values.
-    /// 
-    /// Purpose: Tests the custom toppings parser integration
-    /// How it works:
-    /// 1. Parses a command with comma-separated toppings
-    /// 2. Verifies parsing succeeds without errors
+    /// Parses comma-separated toppings successfully.
     /// </summary>
     [Fact]
     public void Parse_CreateCommandWithCommaSeparatedToppings_ParsesCorrectly()
@@ -330,12 +260,7 @@ public class CreateCommandIntegrationTests
     }
 
     /// <summary>
-    /// Verifies that toppings can be specified using multiple --toppings arguments.
-    /// 
-    /// Purpose: Tests multiple argument handling for toppings
-    /// How it works:
-    /// 1. Parses a command with multiple --toppings arguments
-    /// 2. Verifies parsing succeeds without errors
+    /// Parses multiple `--toppings` arguments successfully.
     /// </summary>
     [Fact]
     public void Parse_CreateCommandWithMultipleToppingsArguments_ParsesCorrectly()
@@ -354,12 +279,7 @@ public class CreateCommandIntegrationTests
     }
 
     /// <summary>
-    /// Verifies that different output formats are handled correctly.
-    /// 
-    /// Purpose: Tests integration with the inherited output option
-    /// How it works:
-    /// 1. Tests multiple output format values using Theory/InlineData
-    /// 2. Verifies each format parses successfully
+    /// Parses supported output formats successfully.
     /// </summary>
     [Theory]
     [InlineData("table")]
@@ -381,12 +301,7 @@ public class CreateCommandIntegrationTests
     }
 
     /// <summary>
-    /// Verifies that invalid output formats are rejected.
-    /// 
-    /// Purpose: Tests validation for output option values
-    /// How it works:
-    /// 1. Attempts to parse with an invalid output format
-    /// 2. Verifies that parsing generates validation errors
+    /// Invalid output formats produce errors.
     /// </summary>
     [Fact]
     public void Parse_CreateCommandWithInvalidOutputFormat_ReturnsError()
@@ -405,12 +320,7 @@ public class CreateCommandIntegrationTests
     }
 
     /// <summary>
-    /// Verifies that the delivery option accepts boolean values.
-    /// 
-    /// Purpose: Tests boolean option parsing
-    /// How it works:
-    /// 1. Tests both true and false values for delivery option
-    /// 2. Verifies both parse successfully
+    /// Parses boolean delivery values successfully.
     /// </summary>
     [Theory]
     [InlineData("true")]
@@ -431,13 +341,7 @@ public class CreateCommandIntegrationTests
     }
 
     /// <summary>
-    /// Verifies that the command can be parsed from within a parent command structure.
-    /// 
-    /// Purpose: Tests hierarchical command parsing
-    /// How it works:
-    /// 1. Creates a full command hierarchy (root -> order -> create)
-    /// 2. Parses the complete command path
-    /// 3. Verifies correct command resolution
+    /// Parses from full hierarchy and verifies resolution.
     /// </summary>
     [Fact]
     public void Parse_CreateCommandInHierarchy_ParsesCorrectly()

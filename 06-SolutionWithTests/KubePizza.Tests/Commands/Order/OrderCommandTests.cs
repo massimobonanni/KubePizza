@@ -7,13 +7,9 @@ using System.CommandLine;
 namespace KubePizza.Tests.Commands.Order;
 
 /// <summary>
-/// Unit tests for the OrderCommand class.
-/// These tests focus on the core functionality and behavior of the OrderCommand,
-/// including constructor validation, property verification, and subcommand setup.
-/// 
-/// The OrderCommand serves as a parent command that manages pizza orders through
-/// its subcommands (create and list). It inherits from CommandBase and uses
-/// dependency injection through IServiceProvider.
+/// Unit tests for <see cref="OrderCommand"/> covering name/description, aliases,
+/// subcommand registration, inheritance, and basic parsing behavior. The command acts
+/// as a container for the `create` and `list` subcommands and inherits base options.
 /// </summary>
 public class OrderCommandTests
 {
@@ -22,9 +18,7 @@ public class OrderCommandTests
     private readonly OrderCommand _orderCommand;
 
     /// <summary>
-    /// Test setup that runs before each test method.
-    /// Creates a mock IServiceProvider and initializes an OrderCommand instance for testing.
-    /// This ensures each test starts with a clean, isolated state.
+    /// Initializes common mocks and the command instance used across tests.
     /// </summary>
     public OrderCommandTests()
     {
@@ -34,10 +28,7 @@ public class OrderCommandTests
     }
 
     /// <summary>
-    /// Verifies that the OrderCommand constructor sets the correct command name.
-    /// 
-    /// Purpose: Ensures the command can be invoked using the correct name "order"
-    /// How it works: Creates an OrderCommand and checks that its Name property equals "order"
+    /// Ensures the command name is set to "order".
     /// </summary>
     [Fact]
     public void Constructor_SetsCorrectName()
@@ -47,10 +38,7 @@ public class OrderCommandTests
     }
 
     /// <summary>
-    /// Verifies that the OrderCommand constructor sets the correct description.
-    /// 
-    /// Purpose: Ensures users see meaningful help text when using --help
-    /// How it works: Creates an OrderCommand and verifies the Description property
+    /// Ensures the description is user friendly.
     /// </summary>
     [Fact]
     public void Constructor_SetsCorrectDescription()
@@ -60,10 +48,7 @@ public class OrderCommandTests
     }
 
     /// <summary>
-    /// Verifies that the OrderCommand adds the "o" alias for convenience.
-    /// 
-    /// Purpose: Ensures users can use the shorter "o" instead of typing "order"
-    /// How it works: Checks that the Aliases collection contains "o"
+    /// Verifies the short alias "o" is present.
     /// </summary>
     [Fact]
     public void Constructor_AddsOrderAlias()
@@ -73,10 +58,7 @@ public class OrderCommandTests
     }
 
     /// <summary>
-    /// Verifies that the CreateCommand subcommand is properly added.
-    /// 
-    /// Purpose: Ensures the "create" functionality is available as a subcommand
-    /// How it works: Searches the Subcommands collection for a command named "create"
+    /// Ensures the `create` subcommand is added.
     /// </summary>
     [Fact]
     public void Constructor_AddsCreateSubcommand()
@@ -86,10 +68,7 @@ public class OrderCommandTests
     }
 
     /// <summary>
-    /// Verifies that the ListCommand subcommand is properly added.
-    /// 
-    /// Purpose: Ensures the "list" functionality is available as a subcommand
-    /// How it works: Searches the Subcommands collection for a command named "list"
+    /// Ensures the `list` subcommand is added.
     /// </summary>
     [Fact]
     public void Constructor_AddsListSubcommand()
@@ -99,10 +78,7 @@ public class OrderCommandTests
     }
 
     /// <summary>
-    /// Verifies that OrderCommand has exactly two subcommands, no more, no less.
-    /// 
-    /// Purpose: Ensures the command structure is as expected and prevents regression
-    /// How it works: Counts the number of subcommands and verifies it equals 2
+    /// Ensures there are exactly two subcommands.
     /// </summary>
     [Fact]
     public void Constructor_HasExactlyTwoSubcommands()
@@ -112,10 +88,7 @@ public class OrderCommandTests
     }
 
     /// <summary>
-    /// Verifies that the "create" subcommand is specifically a CreateCommand instance.
-    /// 
-    /// Purpose: Ensures type safety and that the correct command type is instantiated
-    /// How it works: Finds the "create" subcommand and uses Assert.IsType to verify its type
+    /// Ensures the `create` subcommand type is `CreateCommand`.
     /// </summary>
     [Fact]
     public void Constructor_CreateSubcommandIsCreateCommand()
@@ -129,10 +102,7 @@ public class OrderCommandTests
     }
 
     /// <summary>
-    /// Verifies that the "list" subcommand is specifically a ListCommand instance.
-    /// 
-    /// Purpose: Ensures type safety and that the correct command type is instantiated
-    /// How it works: Finds the "list" subcommand and uses Assert.IsType to verify its type
+    /// Ensures the `list` subcommand type is `ListCommand`.
     /// </summary>
     [Fact]
     public void Constructor_ListSubcommandIsListCommand()
@@ -146,13 +116,7 @@ public class OrderCommandTests
     }
 
     /// <summary>
-    /// Verifies that the IServiceProvider is correctly passed to subcommands.
-    /// 
-    /// Purpose: Ensures dependency injection works properly throughout the command hierarchy
-    /// How it works: Creates a new OrderCommand with a mock service provider, then verifies
-    /// that the subcommands were created successfully (which implies they received the service provider)
-    /// Note: We can't directly access the protected serviceProvider field, so we verify
-    /// indirectly by checking that subcommands have the expected descriptions
+    /// Ensures DI dependencies reach subcommands by confirming successful construction and descriptions.
     /// </summary>
     [Fact]
     public void Constructor_PassesServiceProviderToSubcommands()
@@ -199,10 +163,7 @@ public class OrderCommandTests
     }
 
     /// <summary>
-    /// Verifies that OrderCommand properly inherits from CommandBase.
-    /// 
-    /// Purpose: Ensures the inheritance hierarchy is correct and OrderCommand gets base functionality
-    /// How it works: Uses Assert.IsAssignableFrom to check inheritance relationship
+    /// Confirms inheritance from `CommandBase`.
     /// </summary>
     [Fact]
     public void Constructor_InheritsFromCommandBase()
@@ -212,10 +173,7 @@ public class OrderCommandTests
     }
 
     /// <summary>
-    /// Verifies that OrderCommand inherits from System.CommandLine.Command.
-    /// 
-    /// Purpose: Ensures OrderCommand is compatible with System.CommandLine framework
-    /// How it works: Uses Assert.IsAssignableFrom to check inheritance from the base Command class
+    /// Confirms inheritance from `System.CommandLine.Command`.
     /// </summary>
     [Fact]
     public void Constructor_InheritsFromCommand()
@@ -225,11 +183,7 @@ public class OrderCommandTests
     }
 
     /// <summary>
-    /// Verifies that the command can be invoked using either its full name or alias.
-    /// 
-    /// Purpose: Ensures both "order" and "o" work as valid command invocations
-    /// How it works: Creates a root command, adds the order command, then tests parsing
-    /// both the full name and alias to ensure they don't generate parse errors
+    /// Ensures both full name and alias can be parsed.
     /// </summary>
     [Theory]
     [InlineData("order")]
@@ -246,11 +200,7 @@ public class OrderCommandTests
     }
 
     /// <summary>
-    /// Verifies that passing null as the service provider throws an ArgumentNullException.
-    /// 
-    /// Purpose: Ensures proper error handling for invalid constructor parameters
-    /// How it works: Attempts to create an OrderCommand with null service provider
-    /// and verifies that ArgumentNullException is thrown
+    /// Validates null service provider throws `ArgumentNullException`.
     /// </summary>
     [Fact]
     public void Constructor_WithNullServiceProvider_ThrowsArgumentNullException()
@@ -271,10 +221,7 @@ public class OrderCommandTests
     }
 
     /// <summary>
-    /// Verifies that subcommands have the correct parent-child relationship.
-    /// 
-    /// Purpose: Ensures the command hierarchy is properly established for help and parsing
-    /// How it works: Gets the subcommands and verifies that their parent is the OrderCommand
+    /// Ensures subcommands have the correct parent.
     /// </summary>
     [Fact]
     public void Subcommands_HaveCorrectParent()
@@ -291,10 +238,7 @@ public class OrderCommandTests
     }
 
     /// <summary>
-    /// Verifies that OrderCommand itself doesn't define its own options beyond those inherited from CommandBase.
-    /// 
-    /// Purpose: Ensures OrderCommand is a pure container command that delegates to subcommands
-    /// How it works: Filters out the inherited --output option and verifies no other options exist
+    /// Ensures `OrderCommand` defines no extra options beyond inherited ones.
     /// </summary>
     [Fact]
     public void OrderCommand_HasNoOptions()
@@ -304,10 +248,7 @@ public class OrderCommandTests
     }
 
     /// <summary>
-    /// Verifies that OrderCommand inherits the --output option from CommandBase.
-    /// 
-    /// Purpose: Ensures the base functionality for output formatting is available
-    /// How it works: Searches the Options collection for the --output option or its -o alias
+    /// Confirms inherited `--output` option exists.
     /// </summary>
     [Fact]
     public void OrderCommand_InheritsOutputOptionFromCommandBase()
