@@ -1,4 +1,5 @@
 using KubePizza.Console.Commands.Order;
+using KubePizza.Core.Interfaces;
 using Microsoft.Extensions.DependencyInjection;
 using Moq;
 using System.CommandLine;
@@ -19,6 +20,7 @@ namespace KubePizza.Tests.Commands.Order;
 public class OrderCommandStructureTests
 {
     private readonly Mock<IServiceProvider> _mockServiceProvider;
+    private readonly Mock<IConsole> _mockConsole;
     private readonly OrderCommand _orderCommand;
 
     /// <summary>
@@ -29,7 +31,8 @@ public class OrderCommandStructureTests
     public OrderCommandStructureTests()
     {
         _mockServiceProvider = new Mock<IServiceProvider>();
-        _orderCommand = new OrderCommand(_mockServiceProvider.Object);
+        _mockConsole = new Mock<IConsole>();
+        _orderCommand = new OrderCommand(_mockServiceProvider.Object, _mockConsole.Object);
     }
 
     /// <summary>
@@ -247,7 +250,8 @@ public class OrderCommandStructureTests
     {
         // Arrange
         var mockServiceProvider = new Mock<IServiceProvider>();
-        var orderCommand = new OrderCommand(mockServiceProvider.Object);
+        var mockConsole = new Mock<IConsole>();
+        var orderCommand = new OrderCommand(mockServiceProvider.Object, mockConsole.Object);
 
         // Act - Constructor should pass service provider to subcommands
         var createSubcommand = orderCommand.Subcommands.OfType<CreateCommand>().FirstOrDefault();
@@ -282,33 +286,6 @@ public class OrderCommandStructureTests
         }
     }
 
-    /// <summary>
-    /// Verifies that the --output option accepts the expected valid values.
-    /// 
-    /// Purpose: Tests that output formatting options are properly configured
-    /// How it works:
-    /// 1. Uses Theory/InlineData to test multiple valid output format values
-    /// 2. Locates the --output option and verifies it's properly typed
-    /// 3. The option should accept "table", "json", and "yaml" values as defined in CommandBase
-    /// 4. Note: We can't directly test the validation without triggering it, but we verify
-    ///    the option exists and is properly typed as a string option
-    /// </summary>
-    [Theory]
-    [InlineData("table")]
-    [InlineData("json")]
-    [InlineData("yaml")]
-    public void OrderCommand_OutputOptionAcceptsValidValues(string validValue)
-    {
-        // Arrange
-        var outputOption = _orderCommand.Options.FirstOrDefault(o => o.Name == "--output") as Option<string>;
-
-        // Assert
-        Assert.NotNull(outputOption);
-        // The option should accept only specific values as defined in CommandBase
-        // We can't directly test this without accessing the internal validation,
-        // but we can verify the option exists and is properly typed
-        Assert.IsType<Option<string>>(outputOption);
-    }
 
     /// <summary>
     /// Verifies that OrderCommand doesn't define any command-line arguments.

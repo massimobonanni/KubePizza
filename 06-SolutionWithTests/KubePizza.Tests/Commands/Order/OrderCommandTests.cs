@@ -1,4 +1,5 @@
 using KubePizza.Console.Commands.Order;
+using KubePizza.Core.Interfaces;
 using Microsoft.Extensions.DependencyInjection;
 using Moq;
 using System.CommandLine;
@@ -17,6 +18,7 @@ namespace KubePizza.Tests.Commands.Order;
 public class OrderCommandTests
 {
     private readonly Mock<IServiceProvider> _mockServiceProvider;
+    private readonly Mock<IConsole> _mockConsole;
     private readonly OrderCommand _orderCommand;
 
     /// <summary>
@@ -27,7 +29,8 @@ public class OrderCommandTests
     public OrderCommandTests()
     {
         _mockServiceProvider = new Mock<IServiceProvider>();
-        _orderCommand = new OrderCommand(_mockServiceProvider.Object);
+        _mockConsole = new Mock<IConsole>();
+        _orderCommand = new OrderCommand(_mockServiceProvider.Object, _mockConsole.Object);
     }
 
     /// <summary>
@@ -156,7 +159,30 @@ public class OrderCommandTests
     {
         // Arrange
         var mockServiceProvider = new Mock<IServiceProvider>();
-        var orderCommand = new OrderCommand(mockServiceProvider.Object);
+        var mockConsole = new Mock<IConsole>();
+        var orderCommand = new OrderCommand(mockServiceProvider.Object, mockConsole.Object);
+
+        // Act
+        var createSubcommand = orderCommand.Subcommands.FirstOrDefault(cmd => cmd.Name == "create") as CreateCommand;
+        var listSubcommand = orderCommand.Subcommands.FirstOrDefault(cmd => cmd.Name == "list") as ListCommand;
+
+        // Assert
+        Assert.NotNull(createSubcommand);
+        Assert.NotNull(listSubcommand);
+
+        // We can't directly test the service provider since it's protected in CommandBase
+        // but we can verify the commands were constructed successfully which implies the service provider was passed
+        Assert.Equal("Create a new pizza order", createSubcommand.Description);
+        Assert.Equal("List all pizza orders", listSubcommand.Description);
+    }
+
+    [Fact]
+    public void Constructor_PassesConsoleToSubcommands()
+    {
+        // Arrange
+        var mockServiceProvider = new Mock<IServiceProvider>();
+        var mockConsole = new Mock<IConsole>();
+        var orderCommand = new OrderCommand(mockServiceProvider.Object, mockConsole.Object);
 
         // Act
         var createSubcommand = orderCommand.Subcommands.FirstOrDefault(cmd => cmd.Name == "create") as CreateCommand;
@@ -229,8 +255,19 @@ public class OrderCommandTests
     [Fact]
     public void Constructor_WithNullServiceProvider_ThrowsArgumentNullException()
     {
+        // Arrange
+        var mockConsole = new Mock<IConsole>();
         // Act & Assert
-        Assert.Throws<ArgumentNullException>(() => new OrderCommand(null!));
+        Assert.Throws<ArgumentNullException>(() => new OrderCommand(null!, mockConsole.Object));
+    }
+
+    [Fact]
+    public void Constructor_WithNullConsole_ThrowsArgumentNullException()
+    {
+        // Arrange
+        var mockServiceProvider = new Mock<IServiceProvider>();
+        // Act & Assert
+        Assert.Throws<ArgumentNullException>(() => new OrderCommand(mockServiceProvider.Object, null!));
     }
 
     /// <summary>

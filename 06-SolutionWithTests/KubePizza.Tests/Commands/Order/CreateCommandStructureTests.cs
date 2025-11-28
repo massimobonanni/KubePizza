@@ -1,4 +1,5 @@
 using KubePizza.Console.Commands.Order;
+using KubePizza.Core.Interfaces;
 using KubePizza.Core.Services;
 using Microsoft.Extensions.DependencyInjection;
 using Moq;
@@ -20,6 +21,7 @@ public class CreateCommandStructureTests
 {
     private readonly Mock<IServiceProvider> _mockServiceProvider;
     private readonly Mock<IPizzaCatalog> _mockPizzaCatalog;
+    private readonly Mock<IConsole> _mockConsole;
     private readonly CreateCommand _createCommand;
 
     /// <summary>
@@ -31,18 +33,19 @@ public class CreateCommandStructureTests
     {
         _mockServiceProvider = new Mock<IServiceProvider>();
         _mockPizzaCatalog = new Mock<IPizzaCatalog>();
+        _mockConsole = new Mock<IConsole>();
 
         // Setup standard test data
         _mockPizzaCatalog.Setup(pc => pc.Pizzas)
           .Returns(new[] { "margherita", "diavola", "capricciosa" });
 
         _mockPizzaCatalog.Setup(pc => pc.AllToppings)
- .Returns(new[] { "basil", "mozzarella", "olive" });
+            .Returns(new[] { "basil", "mozzarella", "olive" });
 
         _mockServiceProvider.Setup(sp => sp.GetService(typeof(IPizzaCatalog)))
-  .Returns(_mockPizzaCatalog.Object);
+        .Returns(_mockPizzaCatalog.Object);
 
-        _createCommand = new CreateCommand(_mockServiceProvider.Object);
+        _createCommand = new CreateCommand(_mockServiceProvider.Object, _mockConsole.Object);
     }
 
     /// <summary>
@@ -220,7 +223,7 @@ public class CreateCommandStructureTests
     public void CreateCommand_CanBeAddedToParentCommand()
     {
         // Arrange
-        var orderCommand = new OrderCommand(_mockServiceProvider.Object);
+        var orderCommand = new OrderCommand(_mockServiceProvider.Object, _mockConsole.Object);
 
         // Assert
         Assert.Contains(orderCommand.Subcommands, cmd => cmd.Name == "create");

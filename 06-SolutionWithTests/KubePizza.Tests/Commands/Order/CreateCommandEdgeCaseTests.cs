@@ -1,4 +1,5 @@
 using KubePizza.Console.Commands.Order;
+using KubePizza.Core.Interfaces;
 using KubePizza.Core.Services;
 using Microsoft.Extensions.DependencyInjection;
 using Moq;
@@ -19,6 +20,7 @@ public class CreateCommandEdgeCaseTests
 {
     private readonly Mock<IServiceProvider> _mockServiceProvider;
     private readonly Mock<IPizzaCatalog> _mockPizzaCatalog;
+    private readonly Mock<IConsole> _mockConsole;
 
     /// <summary>
     /// Test setup that runs before each test method.
@@ -28,6 +30,7 @@ public class CreateCommandEdgeCaseTests
     {
         _mockServiceProvider = new Mock<IServiceProvider>();
         _mockPizzaCatalog = new Mock<IPizzaCatalog>();
+        _mockConsole = new Mock<IConsole>();
 
         // Setup standard test data
         _mockPizzaCatalog.Setup(pc => pc.Pizzas)
@@ -53,7 +56,7 @@ public class CreateCommandEdgeCaseTests
     public void Constructor_WithNullServiceProvider_ThrowsArgumentNullException()
     {
         // Act & Assert
-        var exception = Assert.Throws<ArgumentNullException>(() => new CreateCommand(null!));
+        var exception = Assert.Throws<ArgumentNullException>(() => new CreateCommand(null!, _mockConsole.Object));
         Assert.NotNull(exception);
     }
 
@@ -76,7 +79,7 @@ public class CreateCommandEdgeCaseTests
             .Returns(_mockPizzaCatalog.Object);
 
         // Act & Assert
-        var exception = Record.Exception(() => new CreateCommand(mockServiceProvider.Object));
+        var exception = Record.Exception(() => new CreateCommand(mockServiceProvider.Object, _mockConsole.Object));
         Assert.Null(exception);
     }
 
@@ -103,8 +106,8 @@ public class CreateCommandEdgeCaseTests
             .Returns(_mockPizzaCatalog.Object);
 
         // Act
-        var createCommand1 = new CreateCommand(mockServiceProvider1.Object);
-        var createCommand2 = new CreateCommand(mockServiceProvider2.Object);
+        var createCommand1 = new CreateCommand(mockServiceProvider1.Object, _mockConsole.Object);
+        var createCommand2 = new CreateCommand(mockServiceProvider2.Object, _mockConsole.Object);
 
         // Assert
         Assert.NotSame(createCommand1, createCommand2);
@@ -129,7 +132,7 @@ public class CreateCommandEdgeCaseTests
         _mockPizzaCatalog.Setup(pc => pc.Pizzas).Returns((IReadOnlyList<string>)null!);
 
         // Act & Assert - Should not throw during construction
-        var createCommand = new CreateCommand(_mockServiceProvider.Object);
+        var createCommand = new CreateCommand(_mockServiceProvider.Object, _mockConsole.Object);
         Assert.NotNull(createCommand);
     }
 
@@ -147,7 +150,7 @@ public class CreateCommandEdgeCaseTests
     {
         // Arrange
         _mockPizzaCatalog.Setup(pc => pc.Pizzas).Returns(new string[0]);
-        var createCommand = new CreateCommand(_mockServiceProvider.Object);
+        var createCommand = new CreateCommand(_mockServiceProvider.Object, _mockConsole.Object);
         var rootCommand = new RootCommand();
         rootCommand.Add(createCommand);
 
@@ -170,7 +173,7 @@ public class CreateCommandEdgeCaseTests
     public void Parsing_WithWhitespaceOnlyPizza_GeneratesError()
     {
         // Arrange
-        var createCommand = new CreateCommand(_mockServiceProvider.Object);
+        var createCommand = new CreateCommand(_mockServiceProvider.Object, _mockConsole.Object);
         var rootCommand = new RootCommand();
         rootCommand.Add(createCommand);
 
@@ -193,7 +196,7 @@ public class CreateCommandEdgeCaseTests
     public void Parsing_WithExtremelyLongPizzaName_HandlesGracefully()
     {
         // Arrange
-        var createCommand = new CreateCommand(_mockServiceProvider.Object);
+        var createCommand = new CreateCommand(_mockServiceProvider.Object, _mockConsole.Object);
         var rootCommand = new RootCommand();
         rootCommand.Add(createCommand);
         var longPizzaName = new string('a', 10000);
@@ -224,7 +227,7 @@ public class CreateCommandEdgeCaseTests
         _mockPizzaCatalog.Setup(pc => pc.Pizzas)
          .Returns(new[] { "margherita", pizzaName });
 
-        var createCommand = new CreateCommand(_mockServiceProvider.Object);
+        var createCommand = new CreateCommand(_mockServiceProvider.Object, _mockConsole.Object);
         var rootCommand = new RootCommand();
         rootCommand.Add(createCommand);
 
@@ -251,7 +254,7 @@ public class CreateCommandEdgeCaseTests
     public void Parsing_WithMalformedToppings_HandlesGracefully(string toppingsInput)
     {
         // Arrange
-        var createCommand = new CreateCommand(_mockServiceProvider.Object);
+        var createCommand = new CreateCommand(_mockServiceProvider.Object, _mockConsole.Object);
         var rootCommand = new RootCommand();
         rootCommand.Add(createCommand);
 
@@ -274,7 +277,7 @@ public class CreateCommandEdgeCaseTests
     public void Parsing_WithDuplicateToppings_AcceptsInput()
     {
         // Arrange
-        var createCommand = new CreateCommand(_mockServiceProvider.Object);
+        var createCommand = new CreateCommand(_mockServiceProvider.Object, _mockConsole.Object);
         var rootCommand = new RootCommand();
         rootCommand.Add(createCommand);
 
@@ -297,7 +300,7 @@ public class CreateCommandEdgeCaseTests
     public void CreateCommand_ToString_ReturnsUsefulInformation()
     {
         // Arrange
-        var createCommand = new CreateCommand(_mockServiceProvider.Object);
+        var createCommand = new CreateCommand(_mockServiceProvider.Object, _mockConsole.Object);
 
         // Act
         var stringRepresentation = createCommand.ToString();
@@ -319,7 +322,7 @@ public class CreateCommandEdgeCaseTests
     public void CreateCommand_GetHashCode_IsConsistent()
     {
         // Arrange
-        var createCommand = new CreateCommand(_mockServiceProvider.Object);
+        var createCommand = new CreateCommand(_mockServiceProvider.Object, _mockConsole.Object);
 
         // Act
         var hashCode1 = createCommand.GetHashCode();
@@ -349,8 +352,8 @@ public class CreateCommandEdgeCaseTests
         mockServiceProvider2.Setup(sp => sp.GetService(typeof(IPizzaCatalog)))
          .Returns(_mockPizzaCatalog.Object);
 
-        var createCommand1 = new CreateCommand(mockServiceProvider1.Object);
-        var createCommand2 = new CreateCommand(mockServiceProvider2.Object);
+        var createCommand1 = new CreateCommand(mockServiceProvider1.Object, _mockConsole.Object);
+        var createCommand2 = new CreateCommand(mockServiceProvider2.Object, _mockConsole.Object);
 
         // Act & Assert
         Assert.True(createCommand1.Equals(createCommand1)); // Same instance
@@ -377,7 +380,7 @@ public class CreateCommandEdgeCaseTests
         _mockPizzaCatalog.Setup(pc => pc.Pizzas)
             .Returns(new[] { "margherita", pizzaName });
 
-        var createCommand = new CreateCommand(_mockServiceProvider.Object);
+        var createCommand = new CreateCommand(_mockServiceProvider.Object, _mockConsole.Object);
         var rootCommand = new RootCommand();
         rootCommand.Add(createCommand);
 
@@ -400,7 +403,7 @@ public class CreateCommandEdgeCaseTests
     public void CreateCommand_Options_CanBeAccessedMultipleTimes()
     {
         // Arrange
-        var createCommand = new CreateCommand(_mockServiceProvider.Object);
+        var createCommand = new CreateCommand(_mockServiceProvider.Object, _mockConsole.Object);
 
         // Act
         var options1 = createCommand.Options.ToList();
@@ -424,7 +427,7 @@ public class CreateCommandEdgeCaseTests
     public void Parsing_WithExtremelyLongToppingsList_HandlesGracefully()
     {
         // Arrange
-        var createCommand = new CreateCommand(_mockServiceProvider.Object);
+        var createCommand = new CreateCommand(_mockServiceProvider.Object, _mockConsole.Object);
         var rootCommand = new RootCommand();
         rootCommand.Add(createCommand);
         var manyToppings = string.Join(",", Enumerable.Range(1, 1000).Select(i => $"topping{i}"));
@@ -450,7 +453,7 @@ public class CreateCommandEdgeCaseTests
     public void Parsing_WithUnusualOptionCombinations_HandlesGracefully(string commandLine)
     {
         // Arrange
-        var createCommand = new CreateCommand(_mockServiceProvider.Object);
+        var createCommand = new CreateCommand(_mockServiceProvider.Object, _mockConsole.Object);
         var rootCommand = new RootCommand();
         rootCommand.Add(createCommand);
 

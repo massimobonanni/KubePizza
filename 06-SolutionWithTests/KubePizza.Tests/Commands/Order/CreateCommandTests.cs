@@ -1,4 +1,5 @@
 using KubePizza.Console.Commands.Order;
+using KubePizza.Core.Interfaces;
 using KubePizza.Core.Services;
 using Microsoft.Extensions.DependencyInjection;
 using Moq;
@@ -19,6 +20,7 @@ public class CreateCommandTests
 {
     private readonly Mock<IServiceProvider> _mockServiceProvider;
     private readonly Mock<IPizzaCatalog> _mockPizzaCatalog;
+    private readonly Mock<IConsole> _mockConsole;
     private readonly CreateCommand _createCommand;
 
     /// <summary>
@@ -30,24 +32,25 @@ public class CreateCommandTests
     {
         _mockServiceProvider = new Mock<IServiceProvider>();
         _mockPizzaCatalog = new Mock<IPizzaCatalog>();
+        _mockConsole = new Mock<IConsole>();
 
         // Setup mock pizza catalog with test data
         _mockPizzaCatalog.Setup(pc => pc.Pizzas)
-    .Returns(new[] { "margherita", "diavola", "capricciosa", "quattroformaggi", "vegetariana" });
+            .Returns(new[] { "margherita", "diavola", "capricciosa", "quattroformaggi", "vegetariana" });
 
         _mockPizzaCatalog.Setup(pc => pc.AllToppings)
-   .Returns(new[] { "basil", "mozzarella", "bufala", "olive", "mushrooms", "onions", "peppers", "anchovies", "artichokes", "ham", "salami", "chili" });
+            .Returns(new[] { "basil", "mozzarella", "bufala", "olive", "mushrooms", "onions", "peppers", "anchovies", "artichokes", "ham", "salami", "chili" });
 
         _mockPizzaCatalog.Setup(pc => pc.GetRecommendedToppingsFor("margherita"))
-    .Returns(new[] { "basil", "mozzarella", "bufala" });
+            .Returns(new[] { "basil", "mozzarella", "bufala" });
 
         _mockPizzaCatalog.Setup(pc => pc.GetRecommendedToppingsFor("diavola"))
             .Returns(new[] { "mozzarella", "chili", "onions" });
 
         _mockServiceProvider.Setup(sp => sp.GetService(typeof(IPizzaCatalog)))
-       .Returns(_mockPizzaCatalog.Object);
+            .Returns(_mockPizzaCatalog.Object);
 
-        _createCommand = new CreateCommand(_mockServiceProvider.Object);
+        _createCommand = new CreateCommand(_mockServiceProvider.Object, _mockConsole.Object);
     }
 
     /// <summary>
@@ -201,7 +204,7 @@ public class CreateCommandTests
     public void Constructor_WithNullServiceProvider_ThrowsArgumentNullException()
     {
         // Act & Assert
-        Assert.Throws<ArgumentNullException>(() => new CreateCommand(null!));
+        Assert.Throws<ArgumentNullException>(() => new CreateCommand(null!, _mockConsole.Object));
     }
 
     /// <summary>

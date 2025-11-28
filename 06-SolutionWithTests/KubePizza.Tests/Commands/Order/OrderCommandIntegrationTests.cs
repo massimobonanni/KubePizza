@@ -1,4 +1,5 @@
 using KubePizza.Console.Commands.Order;
+using KubePizza.Core.Interfaces;
 using Microsoft.Extensions.DependencyInjection;
 using Moq;
 using System.CommandLine;
@@ -18,6 +19,7 @@ namespace KubePizza.Tests.Commands.Order;
 public class OrderCommandIntegrationTests
 {
     private readonly Mock<IServiceProvider> _mockServiceProvider;
+    private readonly Mock<IConsole> _mockConsole;
 
     /// <summary>
     /// Test setup that runs before each test method.
@@ -27,6 +29,7 @@ public class OrderCommandIntegrationTests
     public OrderCommandIntegrationTests()
     {
         _mockServiceProvider = new Mock<IServiceProvider>();
+        _mockConsole = new Mock<IConsole>();
     }
 
     /// <summary>
@@ -43,7 +46,7 @@ public class OrderCommandIntegrationTests
     public void Parse_OrderCommand_ReturnsCorrectCommand()
     {
         // Arrange
-        var orderCommand = new OrderCommand(_mockServiceProvider.Object);
+        var orderCommand = new OrderCommand(_mockServiceProvider.Object, _mockConsole.Object);
         var rootCommand = new RootCommand();
         rootCommand.Add(orderCommand);
 
@@ -70,7 +73,7 @@ public class OrderCommandIntegrationTests
     public void Parse_OrderWithAlias_ReturnsCorrectCommand()
     {
         // Arrange
-        var orderCommand = new OrderCommand(_mockServiceProvider.Object);
+        var orderCommand = new OrderCommand(_mockServiceProvider.Object, _mockConsole.Object);
         var rootCommand = new RootCommand();
         rootCommand.Add(orderCommand);
 
@@ -97,7 +100,7 @@ public class OrderCommandIntegrationTests
     public async Task Parse_OrderCreateSubcommand_ParsesCorrectly()
     {
         // Arrange
-        var orderCommand = new OrderCommand(_mockServiceProvider.Object);
+        var orderCommand = new OrderCommand(_mockServiceProvider.Object, _mockConsole.Object);
         var rootCommand = new RootCommand();
         rootCommand.Add(orderCommand);
 
@@ -124,7 +127,7 @@ public class OrderCommandIntegrationTests
     public async Task Parse_OrderListSubcommand_ParsesCorrectly()
     {
         // Arrange
-        var orderCommand = new OrderCommand(_mockServiceProvider.Object);
+        var orderCommand = new OrderCommand(_mockServiceProvider.Object, _mockConsole.Object);
         var rootCommand = new RootCommand();
         rootCommand.Add(orderCommand);
 
@@ -151,7 +154,7 @@ public class OrderCommandIntegrationTests
     public void Parse_InvalidSubcommand_ReturnsError()
     {
         // Arrange
-        var orderCommand = new OrderCommand(_mockServiceProvider.Object);
+        var orderCommand = new OrderCommand(_mockServiceProvider.Object, _mockConsole.Object);
         var rootCommand = new RootCommand();
         rootCommand.Add(orderCommand);
 
@@ -181,7 +184,7 @@ public class OrderCommandIntegrationTests
     public void Parse_HelpForSubcommands_ParsesWithoutErrors(string commandLine)
     {
         // Arrange
-        var orderCommand = new OrderCommand(_mockServiceProvider.Object);
+        var orderCommand = new OrderCommand(_mockServiceProvider.Object, _mockConsole.Object);
         var rootCommand = new RootCommand();
         rootCommand.Add(orderCommand);
 
@@ -208,7 +211,7 @@ public class OrderCommandIntegrationTests
     public void OrderCommand_SubcommandsHaveCorrectStructure()
     {
         // Arrange
-        var orderCommand = new OrderCommand(_mockServiceProvider.Object);
+        var orderCommand = new OrderCommand(_mockServiceProvider.Object, _mockConsole.Object);
 
         // Act & Assert
         Assert.Equal(2, orderCommand.Subcommands.Count);
@@ -233,7 +236,7 @@ public class OrderCommandIntegrationTests
     public void OrderCommand_AllSubcommandsInheritFromCommandBase()
     {
         // Arrange
-        var orderCommand = new OrderCommand(_mockServiceProvider.Object);
+        var orderCommand = new OrderCommand(_mockServiceProvider.Object, _mockConsole.Object);
 
         // Act & Assert
         foreach (var subcommand in orderCommand.Subcommands)
@@ -256,7 +259,7 @@ public class OrderCommandIntegrationTests
     public void OrderCommand_AllSubcommandsHaveOutputOption()
     {
         // Arrange
-        var orderCommand = new OrderCommand(_mockServiceProvider.Object);
+        var orderCommand = new OrderCommand(_mockServiceProvider.Object, _mockConsole.Object);
 
         // Act & Assert
         foreach (var subcommand in orderCommand.Subcommands)

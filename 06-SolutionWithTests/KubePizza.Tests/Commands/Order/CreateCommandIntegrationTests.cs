@@ -1,4 +1,5 @@
 using KubePizza.Console.Commands.Order;
+using KubePizza.Core.Interfaces;
 using KubePizza.Core.Services;
 using Microsoft.Extensions.DependencyInjection;
 using Moq;
@@ -20,6 +21,7 @@ public class CreateCommandIntegrationTests
 {
     private readonly Mock<IServiceProvider> _mockServiceProvider;
     private readonly Mock<IPizzaCatalog> _mockPizzaCatalog;
+    private readonly Mock<IConsole> _mockConsole;
 
     /// <summary>
     /// Test setup that runs before each test method.
@@ -30,13 +32,14 @@ public class CreateCommandIntegrationTests
     {
         _mockServiceProvider = new Mock<IServiceProvider>();
         _mockPizzaCatalog = new Mock<IPizzaCatalog>();
+        _mockConsole = new Mock<IConsole>();
 
         // Setup realistic test data
         _mockPizzaCatalog.Setup(pc => pc.Pizzas)
-       .Returns(new[] { "margherita", "diavola", "capricciosa", "quattroformaggi", "vegetariana" });
+            .Returns(new[] { "margherita", "diavola", "capricciosa", "quattroformaggi", "vegetariana" });
 
         _mockPizzaCatalog.Setup(pc => pc.AllToppings)
-  .Returns(new[] { "basil", "mozzarella", "bufala", "olive", "mushrooms", "onions", "peppers", "anchovies", "artichokes", "ham", "salami", "chili" });
+            .Returns(new[] { "basil", "mozzarella", "bufala", "olive", "mushrooms", "onions", "peppers", "anchovies", "artichokes", "ham", "salami", "chili" });
 
         _mockPizzaCatalog.Setup(pc => pc.GetRecommendedToppingsFor("margherita"))
           .Returns(new[] { "basil", "mozzarella", "bufala" });
@@ -45,7 +48,7 @@ public class CreateCommandIntegrationTests
             .Returns(new[] { "mozzarella", "chili", "onions" });
 
         _mockServiceProvider.Setup(sp => sp.GetService(typeof(IPizzaCatalog)))
-       .Returns(_mockPizzaCatalog.Object);
+            .Returns(_mockPizzaCatalog.Object);
     }
 
     /// <summary>
@@ -62,7 +65,7 @@ public class CreateCommandIntegrationTests
     public void Parse_CreateCommandWithValidPizza_ParsesCorrectly()
     {
         // Arrange
-        var createCommand = new CreateCommand(_mockServiceProvider.Object);
+        var createCommand = new CreateCommand(_mockServiceProvider.Object, _mockConsole.Object);
         var rootCommand = new RootCommand();
         rootCommand.Add(createCommand);
 
@@ -88,7 +91,7 @@ public class CreateCommandIntegrationTests
     public void Parse_CreateCommandWithInvalidPizza_ReturnsError()
     {
         // Arrange
-        var createCommand = new CreateCommand(_mockServiceProvider.Object);
+        var createCommand = new CreateCommand(_mockServiceProvider.Object, _mockConsole.Object);
         var rootCommand = new RootCommand();
         rootCommand.Add(createCommand);
 
@@ -113,7 +116,7 @@ public class CreateCommandIntegrationTests
     public void Parse_CreateCommandWithoutRequiredPizza_ReturnsError()
     {
         // Arrange
-        var createCommand = new CreateCommand(_mockServiceProvider.Object);
+        var createCommand = new CreateCommand(_mockServiceProvider.Object, _mockConsole.Object);
         var rootCommand = new RootCommand();
         rootCommand.Add(createCommand);
 
@@ -138,7 +141,7 @@ public class CreateCommandIntegrationTests
     public void Parse_CreateCommandWithMultipleOptions_ParsesCorrectly()
     {
         // Arrange
-        var createCommand = new CreateCommand(_mockServiceProvider.Object);
+        var createCommand = new CreateCommand(_mockServiceProvider.Object, _mockConsole.Object);
         var rootCommand = new RootCommand();
         rootCommand.Add(createCommand);
 
@@ -163,7 +166,7 @@ public class CreateCommandIntegrationTests
     public void Parse_CreateCommandHelp_ParsesWithoutErrors()
     {
         // Arrange
-        var createCommand = new CreateCommand(_mockServiceProvider.Object);
+        var createCommand = new CreateCommand(_mockServiceProvider.Object, _mockConsole.Object);
         var rootCommand = new RootCommand();
         rootCommand.Add(createCommand);
 
@@ -188,7 +191,7 @@ public class CreateCommandIntegrationTests
     public void CreateCommand_IntegratesWithParentOrderCommand()
     {
         // Arrange
-        var orderCommand = new OrderCommand(_mockServiceProvider.Object);
+        var orderCommand = new OrderCommand(_mockServiceProvider.Object, _mockConsole.Object);
 
         // Act
         var createSubcommand = orderCommand.Subcommands.FirstOrDefault(c => c.Name == "create");
@@ -212,7 +215,7 @@ public class CreateCommandIntegrationTests
     public void CreateCommand_PizzaValidator_IntegratesWithPizzaCatalog()
     {
         // Arrange
-        var createCommand = new CreateCommand(_mockServiceProvider.Object);
+        var createCommand = new CreateCommand(_mockServiceProvider.Object, _mockConsole.Object);
         var rootCommand = new RootCommand();
         rootCommand.Add(createCommand);
 
@@ -238,7 +241,7 @@ public class CreateCommandIntegrationTests
     public void Parse_CreateCommandWithValidSize_ParsesCorrectly(string size)
     {
         // Arrange
-        var createCommand = new CreateCommand(_mockServiceProvider.Object);
+        var createCommand = new CreateCommand(_mockServiceProvider.Object, _mockConsole.Object);
         var rootCommand = new RootCommand();
         rootCommand.Add(createCommand);
 
@@ -262,7 +265,7 @@ public class CreateCommandIntegrationTests
     public void Parse_CreateCommandWithInvalidSize_ReturnsError()
     {
         // Arrange
-        var createCommand = new CreateCommand(_mockServiceProvider.Object);
+        var createCommand = new CreateCommand(_mockServiceProvider.Object, _mockConsole.Object);
         var rootCommand = new RootCommand();
         rootCommand.Add(createCommand);
 
@@ -290,7 +293,7 @@ public class CreateCommandIntegrationTests
     public void Parse_CreateCommandWithDifferentCasing_ParsesCorrectly(string pizzaName)
     {
         // Arrange
-        var createCommand = new CreateCommand(_mockServiceProvider.Object);
+        var createCommand = new CreateCommand(_mockServiceProvider.Object, _mockConsole.Object);
         var rootCommand = new RootCommand();
         rootCommand.Add(createCommand);
 
@@ -314,7 +317,7 @@ public class CreateCommandIntegrationTests
     public void Parse_CreateCommandWithCommaSeparatedToppings_ParsesCorrectly()
     {
         // Arrange
-        var createCommand = new CreateCommand(_mockServiceProvider.Object);
+        var createCommand = new CreateCommand(_mockServiceProvider.Object, _mockConsole.Object);
         var rootCommand = new RootCommand();
         rootCommand.Add(createCommand);
 
@@ -338,7 +341,7 @@ public class CreateCommandIntegrationTests
     public void Parse_CreateCommandWithMultipleToppingsArguments_ParsesCorrectly()
     {
         // Arrange
-        var createCommand = new CreateCommand(_mockServiceProvider.Object);
+        var createCommand = new CreateCommand(_mockServiceProvider.Object, _mockConsole.Object);
         var rootCommand = new RootCommand();
         rootCommand.Add(createCommand);
 
@@ -365,7 +368,7 @@ public class CreateCommandIntegrationTests
     public void Parse_CreateCommandWithDifferentOutputFormats_ParsesCorrectly(string outputFormat)
     {
         // Arrange
-        var createCommand = new CreateCommand(_mockServiceProvider.Object);
+        var createCommand = new CreateCommand(_mockServiceProvider.Object, _mockConsole.Object);
         var rootCommand = new RootCommand();
         rootCommand.Add(createCommand);
 
@@ -389,7 +392,7 @@ public class CreateCommandIntegrationTests
     public void Parse_CreateCommandWithInvalidOutputFormat_ReturnsError()
     {
         // Arrange
-        var createCommand = new CreateCommand(_mockServiceProvider.Object);
+        var createCommand = new CreateCommand(_mockServiceProvider.Object, _mockConsole.Object);
         var rootCommand = new RootCommand();
         rootCommand.Add(createCommand);
 
@@ -415,7 +418,7 @@ public class CreateCommandIntegrationTests
     public void Parse_CreateCommandWithDeliveryOption_ParsesCorrectly(string deliveryValue)
     {
         // Arrange
-        var createCommand = new CreateCommand(_mockServiceProvider.Object);
+        var createCommand = new CreateCommand(_mockServiceProvider.Object, _mockConsole.Object);
         var rootCommand = new RootCommand();
         rootCommand.Add(createCommand);
 
@@ -440,7 +443,7 @@ public class CreateCommandIntegrationTests
     public void Parse_CreateCommandInHierarchy_ParsesCorrectly()
     {
         // Arrange
-        var orderCommand = new OrderCommand(_mockServiceProvider.Object);
+        var orderCommand = new OrderCommand(_mockServiceProvider.Object, _mockConsole.Object);
         var rootCommand = new RootCommand();
         rootCommand.Add(orderCommand);
 

@@ -1,4 +1,6 @@
 using KubePizza.Console.Commands.Order;
+using KubePizza.Core.Interfaces;
+using KubePizza.Core.Services;
 using Microsoft.Extensions.DependencyInjection;
 using Moq;
 using System.CommandLine;
@@ -29,9 +31,24 @@ public class OrderCommandEdgeCaseTests
     [Fact]
     public void Constructor_WithNullServiceProvider_ThrowsArgumentNullException()
     {
+        // Arrange
+        var mockConsole = new Mock<IConsole>();
+
         // Act & Assert
-        var exception = Assert.Throws<ArgumentNullException>(() => new OrderCommand(null!));
+        var exception = Assert.Throws<ArgumentNullException>(() => new OrderCommand(null!, mockConsole.Object));
         Assert.Equal("serviceProvider", exception.ParamName);
+    }
+
+
+    [Fact]
+    public void Constructor_WithNullConsole_ThrowsArgumentNullException()
+    {
+        // Arrange
+        var mockServiceProvider = new Mock<IServiceProvider>();
+
+        // Act & Assert
+        var exception = Assert.Throws<ArgumentNullException>(() => new OrderCommand(mockServiceProvider.Object, null!));
+        Assert.Equal("console", exception.ParamName);
     }
 
     /// <summary>
@@ -50,9 +67,10 @@ public class OrderCommandEdgeCaseTests
     {
         // Arrange
         var mockServiceProvider = new Mock<IServiceProvider>();
+        var mockConsole = new Mock<IConsole>();
 
         // Act & Assert
-        var exception = Record.Exception(() => new OrderCommand(mockServiceProvider.Object));
+        var exception = Record.Exception(() => new OrderCommand(mockServiceProvider.Object, mockConsole.Object));
         Assert.Null(exception);
     }
 
@@ -73,10 +91,11 @@ public class OrderCommandEdgeCaseTests
         // Arrange
         var mockServiceProvider1 = new Mock<IServiceProvider>();
         var mockServiceProvider2 = new Mock<IServiceProvider>();
+        var mockConsole = new Mock<IConsole>();
 
         // Act
-        var orderCommand1 = new OrderCommand(mockServiceProvider1.Object);
-        var orderCommand2 = new OrderCommand(mockServiceProvider2.Object);
+        var orderCommand1 = new OrderCommand(mockServiceProvider1.Object, mockConsole.Object);
+        var orderCommand2 = new OrderCommand(mockServiceProvider2.Object, mockConsole.Object);
 
         // Assert
         Assert.NotSame(orderCommand1, orderCommand2);
@@ -105,7 +124,8 @@ public class OrderCommandEdgeCaseTests
     {
         // Arrange
         var mockServiceProvider = new Mock<IServiceProvider>();
-        var orderCommand = new OrderCommand(mockServiceProvider.Object);
+        var mockConsole = new Mock<IConsole>();
+        var orderCommand = new OrderCommand(mockServiceProvider.Object, mockConsole.Object);
         var rootCommand1 = new RootCommand("root1");
         var rootCommand2 = new RootCommand("root2");
 
@@ -135,7 +155,8 @@ public class OrderCommandEdgeCaseTests
     {
         // Arrange
         var mockServiceProvider = new Mock<IServiceProvider>();
-        var orderCommand = new OrderCommand(mockServiceProvider.Object);
+        var mockConsole = new Mock<IConsole>();
+        var orderCommand = new OrderCommand(mockServiceProvider.Object, mockConsole.Object);
         var rootCommand = new RootCommand();
         rootCommand.Add(orderCommand);
 
@@ -163,7 +184,8 @@ public class OrderCommandEdgeCaseTests
     {
         // Arrange
         var mockServiceProvider = new Mock<IServiceProvider>();
-        var orderCommand = new OrderCommand(mockServiceProvider.Object);
+        var mockConsole = new Mock<IConsole>();
+        var orderCommand = new OrderCommand(mockServiceProvider.Object, mockConsole.Object);
         var rootCommand = new RootCommand();
         rootCommand.Add(orderCommand);
 
@@ -191,7 +213,8 @@ public class OrderCommandEdgeCaseTests
     {
         // Arrange
         var mockServiceProvider = new Mock<IServiceProvider>();
-        var orderCommand = new OrderCommand(mockServiceProvider.Object);
+        var mockConsole = new Mock<IConsole>();
+        var orderCommand = new OrderCommand(mockServiceProvider.Object, mockConsole.Object);
 
         // Act
         var subcommands1 = orderCommand.Subcommands.ToList();
@@ -224,7 +247,8 @@ public class OrderCommandEdgeCaseTests
     {
         // Arrange
         var mockServiceProvider = new Mock<IServiceProvider>();
-        var orderCommand = new OrderCommand(mockServiceProvider.Object);
+        var mockConsole = new Mock<IConsole>();
+        var orderCommand = new OrderCommand(mockServiceProvider.Object, mockConsole.Object);
 
         // Act
         var aliases1 = orderCommand.Aliases.ToList();
@@ -252,7 +276,8 @@ public class OrderCommandEdgeCaseTests
     {
         // Arrange
         var mockServiceProvider = new Mock<IServiceProvider>();
-        var orderCommand = new OrderCommand(mockServiceProvider.Object);
+        var mockConsole = new Mock<IConsole>();
+        var orderCommand = new OrderCommand(mockServiceProvider.Object, mockConsole.Object);
 
         // Act
         var stringRepresentation = orderCommand.ToString();
@@ -279,7 +304,8 @@ public class OrderCommandEdgeCaseTests
     {
         // Arrange
         var mockServiceProvider = new Mock<IServiceProvider>();
-        var orderCommand = new OrderCommand(mockServiceProvider.Object);
+        var mockConsole = new Mock<IConsole>();
+        var orderCommand = new OrderCommand(mockServiceProvider.Object, mockConsole.Object);
 
         // Act
         var hashCode1 = orderCommand.GetHashCode();
@@ -306,8 +332,9 @@ public class OrderCommandEdgeCaseTests
     {
         // Arrange
         var mockServiceProvider = new Mock<IServiceProvider>();
-        var orderCommand1 = new OrderCommand(mockServiceProvider.Object);
-        var orderCommand2 = new OrderCommand(mockServiceProvider.Object);
+        var mockConsole = new Mock<IConsole>();
+        var orderCommand1 = new OrderCommand(mockServiceProvider.Object, mockConsole.Object);
+        var orderCommand2 = new OrderCommand(mockServiceProvider.Object, mockConsole.Object);
 
         // Act & Assert
         Assert.True(orderCommand1.Equals(orderCommand1)); // Same instance
